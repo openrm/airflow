@@ -130,28 +130,28 @@ RUN curl --fail --location https://deb.nodesource.com/setup_10.x | bash - \
     && rm -rf /var/lib/apt/lists/*
 
 # Install MySQL client from Oracle repositories (Debian installs mariadb)
-RUN KEY="A4A9406876FCBD3C456770C88C718D3B5072E1F5" \
-    && GNUPGHOME="$(mktemp -d)" \
-    && export GNUPGHOME \
-    && for KEYSERVER in $(shuf -e \
-            ha.pool.sks-keyservers.net \
-            hkp://p80.pool.sks-keyservers.net:80 \
-            keyserver.ubuntu.com \
-            hkp://keyserver.ubuntu.com:80 \
-            pgp.mit.edu) ; do \
-          gpg --keyserver "${KEYSERVER}" --recv-keys "${KEY}" && break || true ; \
-       done \
-    && gpg --export "${KEY}" | apt-key add - \
-    && gpgconf --kill all \
-    rm -rf "${GNUPGHOME}"; \
-    apt-key list > /dev/null \
-    && echo "deb http://repo.mysql.com/apt/debian/ stretch mysql-5.7" | tee -a /etc/apt/sources.list.d/mysql.list \
-    && apt-get update \
-    && apt-get install --no-install-recommends -y \
-        libmysqlclient-dev \
-        mysql-client \
-    && apt-get autoremove -yqq --purge \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+# RUN KEY="A4A9406876FCBD3C456770C88C718D3B5072E1F5" \
+#     && GNUPGHOME="$(mktemp -d)" \
+#     && export GNUPGHOME \
+#     && for KEYSERVER in $(shuf -e \
+#             ha.pool.sks-keyservers.net \
+#             hkp://p80.pool.sks-keyservers.net:80 \
+#             keyserver.ubuntu.com \
+#             hkp://keyserver.ubuntu.com:80 \
+#             pgp.mit.edu) ; do \
+#           gpg --keyserver "${KEYSERVER}" --recv-keys "${KEY}" && break || true ; \
+#        done \
+#     && gpg --export "${KEY}" | apt-key add - \
+#     && gpgconf --kill all \
+#     rm -rf "${GNUPGHOME}"; \
+#     apt-key list > /dev/null \
+#     && echo "deb http://repo.mysql.com/apt/debian/ stretch mysql-5.7" | tee -a /etc/apt/sources.list.d/mysql.list \
+#     && apt-get update \
+#     && apt-get install --no-install-recommends -y \
+#         libmysqlclient-dev \
+#         mysql-client \
+#     && apt-get autoremove -yqq --purge \
+#     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 ARG PIP_VERSION
 ENV PIP_VERSION=${PIP_VERSION}
@@ -267,6 +267,7 @@ ENV DEBIAN_FRONTEND=noninteractive LANGUAGE=C.UTF-8 LANG=C.UTF-8 LC_ALL=C.UTF-8 
 # Install basic and additional apt dependencies
 RUN mkdir -pv /usr/share/man/man1 \
     && mkdir -pv /usr/share/man/man7 \
+    && echo "deb http://deb.debian.org/debian/ sid main" >> /etc/apt/sources.list \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
            apt-transport-https \
@@ -299,28 +300,28 @@ RUN mkdir -pv /usr/share/man/man1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Install MySQL client from Oracle repositories (Debian installs mariadb)
-RUN KEY="A4A9406876FCBD3C456770C88C718D3B5072E1F5" \
-    && GNUPGHOME="$(mktemp -d)" \
-    && export GNUPGHOME \
-    && for KEYSERVER in $(shuf -e \
-            ha.pool.sks-keyservers.net \
-            hkp://p80.pool.sks-keyservers.net:80 \
-            keyserver.ubuntu.com \
-            hkp://keyserver.ubuntu.com:80 \
-            pgp.mit.edu) ; do \
-          gpg --keyserver "${KEYSERVER}" --recv-keys "${KEY}" && break || true ; \
-       done \
-    && gpg --export "${KEY}" | apt-key add - \
-    && gpgconf --kill all \
-    rm -rf "${GNUPGHOME}"; \
-    apt-key list > /dev/null \
-    && echo "deb http://repo.mysql.com/apt/debian/ stretch mysql-5.7" | tee -a /etc/apt/sources.list.d/mysql.list \
-    && apt-get update \
-    && apt-get install --no-install-recommends -y \
-        libmysqlclient20 \
-        mysql-client \
-    && apt-get autoremove -yqq --purge \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+# RUN KEY="A4A9406876FCBD3C456770C88C718D3B5072E1F5" \
+#     && GNUPGHOME="$(mktemp -d)" \
+#     && export GNUPGHOME \
+#     && for KEYSERVER in $(shuf -e \
+#             ha.pool.sks-keyservers.net \
+#             hkp://p80.pool.sks-keyservers.net:80 \
+#             keyserver.ubuntu.com \
+#             hkp://keyserver.ubuntu.com:80 \
+#             pgp.mit.edu) ; do \
+#           gpg --keyserver "${KEYSERVER}" --recv-keys "${KEY}" && break || true ; \
+#        done \
+#     && gpg --export "${KEY}" | apt-key add - \
+#     && gpgconf --kill all \
+#     rm -rf "${GNUPGHOME}"; \
+#     apt-key list > /dev/null \
+#     && echo "deb http://repo.mysql.com/apt/debian/ stretch mysql-5.7" | tee -a /etc/apt/sources.list.d/mysql.list \
+#     && apt-get update \
+#     && apt-get install --no-install-recommends -y \
+#         libmysqlclient20 \
+#         mysql-client \
+#     && apt-get autoremove -yqq --purge \
+#     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 ARG PIP_VERSION
 ENV PIP_VERSION=${PIP_VERSION}
